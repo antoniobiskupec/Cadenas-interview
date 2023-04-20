@@ -1,10 +1,9 @@
-import ProductsList from "./Pages/ProductsList";
+import ProductList from "./Components/ProductList";
 
 function App() {
   return (
     <div>
-      <h1>Cadenas</h1>
-      <ProductsList />
+      <ProductList />
     </div>
   );
 }
