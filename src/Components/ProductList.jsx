@@ -52,46 +52,58 @@ const ProductList = () => {
   };
   const handleClose = () => setOpen(false);
 
+  const styleModal = {
+    opacity: "0.4",
+  };
+
   // render the product list component
   return (
-    <div>
-      {currentProducts.map((product) => (
-        <div className='container' key={product.id}>
-          <Button
-            onClick={function (e, f) {
-              console.log(product.id, e, f);
-              handleOpen(product.id);
-            }}
+    <div className='main-page'>
+      <div className='main'>
+        {currentProducts.map((product) => (
+          <div className='container' key={product.id}>
+            <div className='image-container'>
+              <Button
+                className='image-button'
+                onClick={function (e, f) {
+                  console.log(product.id, e, f);
+                  handleOpen(product.id);
+                }}
+              >
+                <img
+                  src={product.images[0]}
+                  width={250}
+                  height={200}
+                  alt={product.description}
+                ></img>
+                <div className='image-overlay'></div>
+                <h2>{product.title}</h2>
+              </Button>
+            </div>
+
+            <Modal sx={{ ...styleModal }} open={open} onClose={handleClose}>
+              <ProductDetails product={currentProduct}></ProductDetails>
+            </Modal>
+          </div>
+        ))}
+        <Stack spacing={2}>
+          <Pagination
+            className='pagination'
+            count={numberOfPages}
+            page={currentPage}
+            onChange={handlePageChange}
+            sx={{ bgcolor: "#fff", borderRadius: "10px" }}
           >
-            <img
-              src={product.images[0]}
-              width={250}
-              height={250}
-              alt={product.description}
-            ></img>
-            <h2>{product.title}</h2>
-            <hr />
-          </Button>
-          <Modal open={open} onClose={handleClose}>
-            <ProductDetails product={currentProduct}></ProductDetails>
-          </Modal>
-        </div>
-      ))}
-      <Stack spacing={2}>
-        <Pagination
-          count={numberOfPages}
-          page={currentPage}
-          onChange={handlePageChange}
-        >
-          {Array.from(Array(numberOfPages).keys()).map((page) => (
-            <PaginationItem
-              key={page}
-              label={page + 1}
-              active={page + 1 === currentPage}
-            />
-          ))}
-        </Pagination>
-      </Stack>
+            {Array.from(Array(numberOfPages).keys()).map((page) => (
+              <PaginationItem
+                key={page}
+                label={page + 1}
+                active={page + 1 === currentPage}
+              />
+            ))}
+          </Pagination>
+        </Stack>
+      </div>
     </div>
   );
 };
